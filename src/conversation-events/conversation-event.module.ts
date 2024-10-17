@@ -2,6 +2,6 @@ import { Module } from '@nestjs/common';
 import { TcpConnectGateway } from './tcp-connect.gateway';
 
 @Module({
-  providers: [TcpConnectGateway]
+  providers: [TcpConnectGateway],
 })
-export class ConversationEventModule {}
+export class ConversationEventsModule {}
