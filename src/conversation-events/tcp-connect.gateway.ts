@@ -37,15 +37,15 @@ export class TcpConnectGateway
 
     this.logger.log(`Client Connected : ${client.id}`);
     client.on('join-room', ({ roomId, userId }: JoinRoomRequest) => {
-      console.log(userId, roomId);
-      client.join(roomId);
-      console.log('joined', client.rooms);
       this.server.to(roomId).emit('user-connected', userId);
+      client.join(roomId);
 
       client.on('disconnect', () => {
         console.log(client.rooms);
+        console.log(roomId);
         this.server.to(roomId).emit('user-disconnected', userId);
       });
+      console.log('add listen');
     });
   }
 }
