@@ -60,7 +60,7 @@ open 이벤트가 발생하면 url의 uuid를 통해 유저를 room에 join 시�
 간단하게 설명하면 유저가 들어오면 room에 join 시킨다고 보면 된다.
 */
 myPeer.on('open', (id) => {
-  socket.emit('join-room', ROOM_ID, id);
+  socket.emit('join-room', { roomId: ROOM_ID, userId: id });
 });
 
 /*

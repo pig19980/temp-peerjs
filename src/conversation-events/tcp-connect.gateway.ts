@@ -1,5 +1,7 @@
 import { Logger, Res, UseGuards } from '@nestjs/common';
 import {
+  ConnectedSocket,
+  MessageBody,
   OnGatewayConnection,
   OnGatewayDisconnect,
   OnGatewayInit,
@@ -8,8 +10,9 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import { Response } from 'express';
-import { AuthHttpGuard, AuthWsGuard } from 'src/auth/auth.guard';
+import { AuthWsGuard } from 'src/auth/auth.guard';
+import { JoinRoomRequest } from './dto/join-room-request.dto';
+import { ContextIdFactory } from '@nestjs/core';
 
 @WebSocketGateway()
 export class TcpConnectGateway
@@ -26,15 +29,23 @@ export class TcpConnectGateway
 
   handleDisconnect(client: Socket) {
     this.logger.log(`Client Disconnected : ${client.id}`);
+    console.log(client.rooms);
   }
 
   handleConnection(client: Socket, ...args: any[]) {
-    console.log(args);
-    console.log(client.rooms);
-    console.log(client.id);
-    console.log(client.rooms);
     console.log(client.handshake.query.token);
 
     this.logger.log(`Client Connected : ${client.id}`);
+    client.on('join-room', ({ roomId, userId }: JoinRoomRequest) => {
+      console.log(userId, roomId);
+      client.join(roomId);
+      console.log('joined', client.rooms);
+      this.server.to(roomId).emit('user-connected', userId);
+
+      client.on('disconnect', () => {
+        console.log(client.rooms);
+        this.server.to(roomId).emit('user-disconnected', userId);
+      });
+    });
   }
 }
