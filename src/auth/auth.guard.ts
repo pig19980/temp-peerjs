@@ -1,6 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Request } from 'express';
 import { Response } from 'express';
+import { JoinRoomRequest } from 'src/conversation-events/dto/join-room-request.dto';
 
 @Injectable()
 export class AuthHttpGuard implements CanActivate {
@@ -20,7 +21,7 @@ export class AuthHttpGuard implements CanActivate {
 export class AuthWsGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean {
     console.log('2=====================');
-    const data = context.switchToWs().getData();
+    const data: JoinRoomRequest = context.switchToWs().getData();
     console.log(data);
     return true;
   }
