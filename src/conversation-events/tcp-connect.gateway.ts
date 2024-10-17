@@ -9,7 +9,7 @@ import {
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { Response } from 'express';
-import { AuthGuard } from 'src/auth/auth.guard';
+import { AuthHttpGuard, AuthWsGuard } from 'src/auth/auth.guard';
 
 @WebSocketGateway()
 export class TcpConnectGateway
@@ -28,14 +28,13 @@ export class TcpConnectGateway
     this.logger.log(`Client Disconnected : ${client.id}`);
   }
 
-  @UseGuards(AuthGuard)
-  handleConnection(client: Socket, @Res() response: Response, ...args: any[]) {
+  handleConnection(client: Socket, ...args: any[]) {
     console.log(args);
     console.log(client.rooms);
     console.log(client.id);
     console.log(client.rooms);
+    console.log(client.handshake.query.token);
 
-    console.log(response);
     this.logger.log(`Client Connected : ${client.id}`);
   }
 }

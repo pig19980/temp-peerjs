@@ -1,4 +1,8 @@
-const socket = io('/');
+const socket = io('http://localhost:3000', {
+  query: {
+    token: 'your-auth-token',
+  },
+});
 const videoGrid = document.getElementById('video-grid');
 const myPeer = new Peer();
 const myVideo = document.createElement('video');
@@ -40,7 +44,7 @@ navigator.mediaDevices
     socket.on('user-connected', (userId) => {
       connectToNewUser(userId, stream);
     });
-});
+  });
 
 /*
 유저가 나간 경우에 socket.io에서는 자동으로 'disconnect' 이벤트를 발생시킨다.
