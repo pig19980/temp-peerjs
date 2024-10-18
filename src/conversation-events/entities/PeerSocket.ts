@@ -26,3 +26,24 @@ export function initPeerSocket(socket: PeerSocket) {
     return retDto;
   };
 }
+
+// Not good method
+// export interface PeerSocket extends Socket {
+//   roomId: string;
+//   userId: string;
+//   isInRoom(): boolean {
+//     return this.roomId != undefined;
+//   }
+//   joinRoom({ roomId, userId }: PeerDto): void {
+//     super.join(roomId);
+//     this.roomId = roomId;
+//     this.userId = userId;
+//     console.log('join', this.roomId, this.userId);
+//   }
+//   leaveRoom(): PeerDto {
+//     const retDto = { roomId: this.roomId, userId: this.userId };
+//     this.roomId = undefined;
+//     this.userId = undefined;
+//     return retDto;
+//   }
+// }
