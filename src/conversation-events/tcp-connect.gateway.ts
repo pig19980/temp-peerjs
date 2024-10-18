@@ -9,11 +9,9 @@ import {
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
-import { Server, Socket } from 'socket.io';
-import { AuthWsGuard } from 'src/auth/auth.guard';
-import { JoinRoomRequest } from './dto/join-room-request.dto';
-import { ContextIdFactory } from '@nestjs/core';
-import { error } from 'console';
+import { Server } from 'socket.io';
+import { PeerDto } from './dto/join-room-request.dto';
+import { initPeerSocket, PeerSocket } from './entities/PeerSocket';
 
 class User {
   userId: string;
@@ -30,27 +28,27 @@ export class TcpConnectGateway
 
   @SubscribeMessage('join-room')
   handleJoinRoom(
-    @ConnectedSocket() client: Socket,
-    @MessageBody() { roomId, userId }: JoinRoomRequest,
+    @ConnectedSocket() client: PeerSocket,
+    @MessageBody() { roomId, userId }: PeerDto,
   ) {
     // Need check room is exist
-    if (client.roomId) {
+    if (client.isInRoom()) {
       throw new BadGatewayException();
     }
     this.server.to(roomId).emit('user-connected', userId);
-    client.join(roomId);
-    client.roomId = roomId;
-    client.userId = userId;
+    client.joinRoom({ roomId, userId });
     console.log('add listen');
     console.log(client.roomId);
     console.log(client.id, userId);
   }
 
-  handleDisconnect(client: Socket) {
+  handleDisconnect(client: PeerSocket) {
     this.logger.log(`Client Disconnected : ${client.id}`);
     console.log('was in ', client.roomId);
-    if (client.roomId) {
-      this.server.to(client.roomId).emit('user-disconnected', client.userId);
+    if (client.isInRoom()) {
+      const { roomId, userId } = client.leaveRoom();
+      console.log(roomId, userId);
+      this.server.to(roomId).emit('user-disconnected', userId);
     }
   }
 
@@ -58,9 +56,9 @@ export class TcpConnectGateway
     this.logger.log('웹소켓 서버 초기화 ✅');
   }
 
-  handleConnection(client: Socket, ...args: any[]) {
+  handleConnection(client: PeerSocket, ...args: any[]) {
     console.log(client.handshake.query.token);
     this.logger.log(`Client Connected : ${client.id}`);
-    client.roomId = undefined;
+    initPeerSocket(client);
   }
 }
