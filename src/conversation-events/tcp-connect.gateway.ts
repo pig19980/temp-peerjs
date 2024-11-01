@@ -12,6 +12,7 @@ import {
 import { Server } from 'socket.io';
 import { PeerDto } from './dto/join-room-request.dto';
 import { initPeerSocket, PeerSocket } from './entities/PeerSocket';
+const peerJs = require('peerjs-nodejs');
 
 class User {
   userId: string;
@@ -21,7 +22,15 @@ class User {
 export class TcpConnectGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
-  constructor() {}
+  peer;
+  constructor() {
+    console.log(window)
+    this.peer = peerJs();
+    // console.log(this.peer);
+    this.peer.on('open', (id) => {
+      console.log(id);
+    });
+  }
 
   @WebSocketServer() server: Server;
   private logger: Logger = new Logger('TCPEventsGateway');

@@ -17,6 +17,14 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-    "moduleResolution": "NodeNext"
+    "moduleResolution": "NodeNext",
+    "paths": {
+      "@app/my-peer": [
+        "libs/my-peer/src"
+      ],
+      "@app/my-peer/*": [
+        "libs/my-peer/src/*"
+      ]
+    }
   }
 }
