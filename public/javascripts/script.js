@@ -30,10 +30,14 @@ navigator.mediaDevices
     call.on('stream')에서는 다른 유저의 stream을 나의 브라우저에 추가 시키는 콜백 함수가 실행된다.
     */
     myPeer.on('call', (call) => {
-      call.answer(stream);
+      call.answer(undefined);
       const video = document.createElement('video');
+      peers[call.peer] = call;
       call.on('stream', (userVideoStream) => {
         addVideoStream(video, userVideoStream);
+      });
+      call.on('close', () => {
+        video.remove();
       });
     });
 
@@ -51,7 +55,9 @@ navigator.mediaDevices
 이 경우 다른 peer의 stream을 close 시키는 코드이다.
 */
 socket.on('user-disconnected', (userId) => {
-  if (peers[userId]) peers[userId].close();
+  if (peers[userId]) {
+    peers[userId].close(); // 없으면 딜레이 있음
+  }
 });
 
 /*
@@ -73,15 +79,16 @@ myPeer.on('open', (id) => {
 */
 function connectToNewUser(userId, stream) {
   const call = myPeer.call(userId, stream);
-  const video = document.createElement('video');
-  call.on('stream', (userVideoStream) => {
-    addVideoStream(video, userVideoStream);
-  });
-  call.on('close', () => {
-    video.remove();
-  });
+  // const video = document.createElement('video');
+  // call.on('stream', (userVideoStream) => {
+  //   console.log('got stream');
+  //   addVideoStream(video, userVideoStream);
+  // });
+  // call.on('close', () => {
+  //   video.remove();
+  // });
 
-  peers[userId] = call;
+  // peers[userId] = call;
 }
 
 function addVideoStream(video, stream) {

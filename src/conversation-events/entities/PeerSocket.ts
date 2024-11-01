@@ -17,7 +17,6 @@ export function initPeerSocket(socket: PeerSocket) {
     socket.join(roomId);
     socket.roomId = roomId;
     socket.userId = userId;
-    console.log('join', socket.roomId, socket.userId);
   };
   socket.leaveRoom = () => {
     const retDto = { roomId: socket.roomId, userId: socket.userId };

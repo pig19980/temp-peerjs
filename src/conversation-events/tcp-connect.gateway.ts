@@ -37,17 +37,12 @@ export class TcpConnectGateway
     }
     this.server.to(roomId).emit('user-connected', userId);
     client.joinRoom({ roomId, userId });
-    console.log('add listen');
-    console.log(client.roomId);
-    console.log(client.id, userId);
   }
 
   handleDisconnect(client: PeerSocket) {
     this.logger.log(`Client Disconnected : ${client.id}`);
-    console.log('was in ', client.roomId);
     if (client.isInRoom()) {
       const { roomId, userId } = client.leaveRoom();
-      console.log(roomId, userId);
       this.server.to(roomId).emit('user-disconnected', userId);
     }
   }
@@ -57,7 +52,6 @@ export class TcpConnectGateway
   }
 
   handleConnection(client: PeerSocket, ...args: any[]) {
-    console.log(client.handshake.query.token);
     this.logger.log(`Client Connected : ${client.id}`);
     initPeerSocket(client);
   }
