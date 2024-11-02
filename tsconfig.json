@@ -20,10 +20,10 @@
     "moduleResolution": "NodeNext",
     "paths": {
       "@app/my-peer": [
-        "libs/my-peer/src"
+        "libs/my-peer"
       ],
       "@app/my-peer/*": [
-        "libs/my-peer/src/*"
+        "libs/my-peer/*"
       ]
     }
   }

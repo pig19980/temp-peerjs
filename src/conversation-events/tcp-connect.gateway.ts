@@ -12,6 +12,7 @@ import {
 import { Server } from 'socket.io';
 import { PeerDto } from './dto/join-room-request.dto';
 import { initPeerSocket, PeerSocket } from './entities/PeerSocket';
+import { getPeer } from '@app/my-peer';
 
 class User {
   userId: string;
@@ -49,6 +50,10 @@ export class TcpConnectGateway
 
   afterInit(server: Server) {
     this.logger.log('웹소켓 서버 초기화 ✅');
+    const myPeer = getPeer();
+    myPeer.on('open', (id) => {
+      console.log('peerid', id);
+    });
   }
 
   handleConnection(client: PeerSocket, ...args: any[]) {

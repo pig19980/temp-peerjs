@@ -1,7 +1,4 @@
 window = global;
-
-XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
-
 var wrtc = require('wrtc');
 
 RTCPeerConnection = wrtc.RTCPeerConnection;
@@ -13,11 +10,11 @@ location = {
   protocol: 'http',
 };
 
-// var { Peer } = require('peerjs');
+var { Peer } = require('peerjs');
 
-require('peerjs/lib/exports');
-// function myPeer() {}
+function getPeer() {
+  const ret = new Peer();
+  return ret;
+}
 
-module.exports = function () {
-  return new Peer();
-};
+module.exports = { getPeer };
