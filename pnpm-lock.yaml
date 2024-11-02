@@ -56,6 +56,12 @@ importers:
       wrtc:
         specifier: ^0.4.7
         version: 0.4.7
+      ws:
+        specifier: ^8.18.0
+        version: 8.18.0
+      xmlhttprequest:
+        specifier: ^1.8.0
+        version: 1.8.0
       y-webrtc:
         specifier: ^10.3.0
         version: 10.3.0(yjs@13.6.20)
@@ -3397,6 +3403,18 @@ packages:
       utf-8-validate:
         optional: true
 
+  ws@8.18.0:
+    resolution: {integrity: sha512-8VbfWfHLbbwu3+N6OKsOMpBdT4kXPDDB9cJk2bJ6mh9ucxdlnNvH1e+roYkKmN9Nxw2yjz7VzeO9oOz2zJ04Pw==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+
   xmlhttprequest@1.8.0:
     resolution: {integrity: sha512-58Im/U0mlVBLM38NdZjHyhuMtCqa61469k2YP/AaPbvCoV9aQGUpbJBj1QRm2ytRiVQBD/fsw7L2bJGDVQswBA==}
     engines: {node: '>=0.4.0'}
@@ -6472,7 +6490,7 @@ snapshots:
       cors: 2.8.5
       express: 4.21.1
       node-fetch: 3.3.2
-      ws: 8.17.1
+      ws: 8.18.0
       yargs: 17.7.2
     transitivePeerDependencies:
       - bufferutil
@@ -7318,6 +7336,8 @@ snapshots:
 
   ws@8.17.1: {}
 
+  ws@8.18.0: {}
+
   xmlhttprequest@1.8.0: {}
 
   xtend@2.1.2:
@@ -7345,7 +7365,7 @@ snapshots:
       y-protocols: 1.0.6(yjs@13.6.20)
       yjs: 13.6.20
     optionalDependencies:
-      ws: 8.17.1
+      ws: 8.18.0
     transitivePeerDependencies:
       - bufferutil
       - supports-color
