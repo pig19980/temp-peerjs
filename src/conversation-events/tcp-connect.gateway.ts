@@ -12,7 +12,6 @@ import {
 import { Server } from 'socket.io';
 import { PeerDto } from './dto/join-room-request.dto';
 import { initPeerSocket, PeerSocket } from './entities/PeerSocket';
-import { MyPeerService } from '@app/my-peer';
 
 class User {
   userId: string;
@@ -22,7 +21,7 @@ class User {
 export class TcpConnectGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
-  constructor(private myPeerService: MyPeerService) {}
+  constructor() {}
 
   @WebSocketServer() server: Server;
   private logger: Logger = new Logger('TCPEventsGateway');
@@ -55,10 +54,5 @@ export class TcpConnectGateway
   handleConnection(client: PeerSocket, ...args: any[]) {
     this.logger.log(`Client Connected : ${client.id}`);
     initPeerSocket(client);
-    const peer = this.myPeerService.getPeer();
-    console.log(peer);
-    peer.on('open', (id) => {
-      console.log(id);
-    });
   }
 }

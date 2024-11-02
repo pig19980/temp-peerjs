@@ -1,0 +1,21 @@
+{
+  "name": "my-peer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "ava test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "peerjs": "^1.5.4",
+    "wrtc": "^0.4.7",
+    "ws": "^8.18.0",
+    "xmlhttprequest": "^1.8.0"
+  },
+  "devDependencies": {
+    "ava": "^6.2.0"
+  }
+}
